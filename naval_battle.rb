@@ -49,12 +49,21 @@ def show_area_without_ships(spots)
   end
 end
 
+def no_other_ships_nearby?(a, b, spots)
+  if spots[a + 1][b - 2] == ' .' && spots[a + 1][b - 1] == ' .' && spots[a + 1][b] == ' .' && 
+     spots[a + 1][b + 1] == ' .' && spots[a - 1][b - 2] == ' .' && spots[a - 1][b - 1] == ' .' && 
+     spots[a - 1][b] == ' .' && spots[a - 1][b + 1] == ' .' && spots[a][b - 2] == ' .' && 
+     spots[a][b - 1] == ' .' && spots[a][b + 1] == ' .' 
+  return true  
+  end
+end
+
 def place_ships(spots)
   i = 0
   while i < 3
     a = rand(9)
     b = rand(1..9)
-    if spots[a][b] != ' ▷' and spots[a][b - 1] != ' ▷' 
+    if spots[a][b] == ' .' && spots[a][b - 1] == ' .' && no_other_ships_nearby?(a, b, spots)
       spots[a][b] = ' ▷'
       spots[a][b - 1] = ' ▷' 
       i += 1
@@ -65,7 +74,7 @@ def place_ships(spots)
   while c < 4
     a = rand(9)
     b = rand(9)
-    if spots[a][b] != ' ▶' and spots[a][b] != ' ▷'
+    if spots[a][b] == ' .' && no_other_ships_nearby?(a, b, spots)
       spots[a][b] = ' ▶'
       c += 1
     end
@@ -110,7 +119,5 @@ else
   spots[index_of_arr][index_of_elenent] = ' 0'
 end
 
-#p index_of_elenent
-#p index_of_arr
 show_area_without_ships(spots)
 show_area(spots)
